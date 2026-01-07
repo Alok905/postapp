@@ -4,7 +4,7 @@ import com.alok.postapp.dto.user.UserResponse;
 
 public record LoginResponse(
         String accessToken,
-        String refreshToke,
+        String refreshToken,
         UserResponse user
 ) {
 }

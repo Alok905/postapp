@@ -1,10 +1,11 @@
 package com.alok.postapp.entity;
 
+import com.alok.postapp.data.ConstraintMessageMapper;
+import com.alok.postapp.data.DbConstraints;
 import com.alok.postapp.enums.Permission;
 import com.alok.postapp.enums.Role;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,10 +22,21 @@ import java.util.stream.Collectors;
 
 @Entity
 @Getter @Setter
+@Table(
+        name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = DbConstraints.USER_EMAIL,
+                        columnNames = {"email"}
+                )
+        }
+)
 public class User implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    String name;
 
     @Column(unique = true, nullable = false)
     String email;
@@ -100,5 +112,19 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return this.deactivatedAt == null;
     }
+
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", email='" + email + '\'' +
+//                ", role=" + role +
+//                ", createdAt=" + createdAt +
+//                ", deletedAt=" + deletedAt +
+//                ", deactivatedAt=" + deactivatedAt +
+//                '}';
+//    }
+
 }
 

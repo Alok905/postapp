@@ -11,6 +11,6 @@ import static com.alok.postapp.enums.Role.*;
 public record SignupRequest(
         @Email @NotBlank String email,
         @PasswordValidation String password,
-        @AllowedRoles({CREATOR, ADMIN}) Role role
+        @AllowedRoles({VIEWER, CREATOR}) Role role
 ) {
 }

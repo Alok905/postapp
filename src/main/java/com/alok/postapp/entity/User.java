@@ -31,7 +31,9 @@ import java.util.stream.Collectors;
                 )
         }
 )
-@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class User implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +44,6 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     String email;
 
-    @Column(nullable = false)
     String password;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

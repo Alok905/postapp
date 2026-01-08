@@ -1,7 +1,6 @@
-package com.alok.postapp.config.security;
+package com.alok.postapp.authorization;
 
 import com.alok.postapp.enums.Permission;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

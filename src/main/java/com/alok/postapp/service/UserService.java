@@ -10,6 +10,8 @@ public interface UserService extends UserDetailsService {
 
     User getUserByEmail(String email, boolean throwException);
 
+    User saveUser(User user);
+
     UserProfileResponse getMyProfile();
 
     UserProfileResponse updateMyProfile(MyProfileUpdateRequest myProfileUpdateRequest);

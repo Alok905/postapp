@@ -59,6 +59,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
     public UserProfileResponse getMyProfile() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

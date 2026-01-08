@@ -4,18 +4,17 @@ import lombok.Getter;
 
 import java.util.Set;
 
-import static com.alok.postapp.enums.Permission.*;
 
 @Getter  // for "getPermissions()" method
 public enum Role {
     CREATOR(Set.of(
-            POST_CREATE,
-            POST_VIEW,
-            POST_EDIT,
-            POST_DELETE
+            Permission.POST_CREATE,
+            Permission.POST_VIEW,
+            Permission.POST_EDIT,
+            Permission.POST_DELETE
     )),
     VIEWER(Set.of(
-                POST_VIEW
+            Permission.POST_VIEW
     )),
     ADMIN(Set.of(Permission.values()));
 

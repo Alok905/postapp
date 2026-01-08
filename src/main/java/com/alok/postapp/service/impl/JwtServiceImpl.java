@@ -37,7 +37,8 @@ public class JwtServiceImpl implements JwtService {
                 .subject(user.getId().toString())
                 .claim("role", user.getRole())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))  // temporarily long lived access token
+//                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
                 .signWith(getKey())
                 .compact();
     }
@@ -48,6 +49,16 @@ public class JwtServiceImpl implements JwtService {
                 .subject(user.getId().toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30))
+                .signWith(getKey())
+                .compact();
+    }
+
+    @Override
+    public String generateActivateToken(User user) {
+        return Jwts.builder()
+                .subject(user.getId().toString())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5))
                 .signWith(getKey())
                 .compact();
     }
@@ -69,16 +80,20 @@ public class JwtServiceImpl implements JwtService {
         return  Long.parseLong(getClaimsFromToken(token).getSubject());
     }
 
-    @Override
-    public Boolean validateAccessToken(String accessToken, User user) {
-        Claims claims = getClaimsFromToken(accessToken);
-
-        return claims.getSubject().equals(user.getId().toString());
+    public Long getUserIdFromActivateToken(String token) {
+        return  Long.parseLong(getClaimsFromToken(token).getSubject());
     }
 
-    @Override
-    public Boolean validateRefreshToken(String refreshToken, User user) {
-        return true;
-    }
+//    @Override
+//    public Boolean validateAccessToken(String accessToken, User user) {
+//        Claims claims = getClaimsFromToken(accessToken);
+//
+//        return claims.getSubject().equals(user.getId().toString());
+//    }
+//
+//    @Override
+//    public Boolean validateRefreshToken(String refreshToken, User user) {
+//        return true;
+//    }
 
 }

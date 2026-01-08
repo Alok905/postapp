@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
 import static com.alok.postapp.enums.Role.*;
 
 public record SignupRequest(
-        @NotBlank @Length(min = 3) String name,
+        @NotBlank @Length(min = 3, max = 40) String name,
         @Email @NotBlank String email,
         @PasswordValidation String password,
         @AllowedRoles({VIEWER, CREATOR}) Role role

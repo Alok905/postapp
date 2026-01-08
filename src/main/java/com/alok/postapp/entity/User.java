@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
                 )
         }
 )
+@ToString
 public class User implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -91,6 +92,18 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return this.email;
+    }
+
+    ///  it'll be used to update the database if some extra permissions are given by admin
+    public Set<Permission> getStoredPermissions() {
+        return this.permissions;
+    }
+
+    public Set<Permission> getPermissions() {
+        Set<Permission> effectivePermissions = new HashSet<>(this.permissions);
+        effectivePermissions.addAll(this.role.getPermissions());
+
+        return effectivePermissions;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.alok.postapp.advice.templates.ApiError;
 import com.alok.postapp.advice.templates.ApiResponse;
 import com.alok.postapp.data.ConstraintMessageMapper;
 import com.alok.postapp.data.DbConstraints;
+import com.alok.postapp.exception.ConflictException;
 import com.alok.postapp.exception.ResourceNotFoundException;
 import io.jsonwebtoken.JwtException;
 import org.hibernate.exception.ConstraintViolationException;
@@ -11,9 +12,12 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.naming.AuthenticationException;
 
@@ -69,6 +73,15 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(error, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ApiResponse<Void>> handleDisabledException(DisabledException ex) {
+        ApiError error = ApiError.builder()
+                .message(ex.getMessage())
+                .build();
+
+        return buildResponseEntity(error, HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiResponse<Void>> handleAuthenticationException(AuthenticationException ex) {
         ApiError error = ApiError.builder()
@@ -85,6 +98,27 @@ public class GlobalExceptionHandler {
                 .build();
 
         return buildResponseEntity(error, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ApiResponse<Void>> handleConflictException(ConflictException ex) {
+        ApiError error = ApiError.builder()
+                .message(ex.getMessage())
+                .build();
+
+        return buildResponseEntity(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler({
+            MethodArgumentTypeMismatchException.class,
+            HttpMessageNotReadableException.class
+    })
+    public ResponseEntity<ApiResponse<Void>> handleEnumErrors(Exception ex) {
+        ApiError error = ApiError.builder()
+                .message("Invalid enum value provided")
+                .build();
+
+        return buildResponseEntity(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)

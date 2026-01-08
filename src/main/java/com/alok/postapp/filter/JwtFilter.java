@@ -48,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 return;
             }
 
-            User user = userService.getUserById(userId);
+            User user = userService.getUserById(userId, false);
 
             if(user == null) {
                 filterChain.doFilter(request,response);
@@ -73,6 +73,7 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.clearContext();
             handlerExceptionResolver.resolveException(request, response, null, ex);
         }
-        filterChain.doFilter(request,response);
+        ///  I wrote doFilter 2 times, so 2 times the response was coming
+//        filterChain.doFilter(request,response);
     }
 }

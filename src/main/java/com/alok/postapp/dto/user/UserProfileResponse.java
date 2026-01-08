@@ -6,7 +6,8 @@ import com.alok.postapp.enums.Role;
 import java.time.Instant;
 import java.util.Set;
 
-public record UserResponse(
+/// for now UserResponse and UserProfileResponse contains same fields; if some new fields are introduced in the User then it'll be useful
+public record UserProfileResponse(
         Long id,
         String email,
         String name,

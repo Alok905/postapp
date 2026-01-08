@@ -1,4 +1,4 @@
-package com.alok.postapp.config;
+package com.alok.postapp.config.security;
 
 import com.alok.postapp.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
-public class WebSecurityConfig {
+public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
 

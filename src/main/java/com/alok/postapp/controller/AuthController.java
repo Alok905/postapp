@@ -1,10 +1,7 @@
 package com.alok.postapp.controller;
 
-import com.alok.postapp.dto.auth.LoginRequest;
-import com.alok.postapp.dto.auth.LoginResponse;
-import com.alok.postapp.dto.auth.SignupRequest;
+import com.alok.postapp.dto.auth.*;
 import com.alok.postapp.dto.user.UserResponse;
-import com.alok.postapp.entity.User;
 import com.alok.postapp.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,12 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 @RestController
@@ -63,5 +56,23 @@ public class AuthController {
 
         LoginResponse loginResponse = authService.refreshAccessToken(refreshToken);
         return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Activating User:
+     *  frontend will send a Post request with user's email in the payload.
+     *  backend will validate that, create one token, and send one link /auth/activate?token=<token> to user's email
+     *  we'll create one more get end point for the same, and if the token is valid then activate the user now.
+     */
+    @PostMapping("activate")
+    public ResponseEntity<UserActivateResponse> sendActivationMail( @Valid@RequestBody UserActivateRequest userActivateRequest) {
+        UserActivateResponse userActivateResponse = authService.sendActivationMail(userActivateRequest);
+        return new ResponseEntity<>(userActivateResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("activate")
+    public ResponseEntity<UserActivateSuccessResponse> activateUserByToken(@RequestParam(required = true) String token) {
+        UserActivateSuccessResponse response = authService.activateUser(token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

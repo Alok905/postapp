@@ -9,14 +9,14 @@ public interface JwtService {
 
     String generateRefreshToken(User user);
 
+    String generateActivateToken(User user);
+
     Claims getClaimsFromToken(String refreshToken);
 
     Long getUserIdFromAccessToken(String token);
 
     Long getUserIdFromRefreshToken(String token);
 
-    Boolean validateAccessToken(String accessToken, User user);
-
-    Boolean validateRefreshToken(String refreshToken, User user);
+    Long getUserIdFromActivateToken(String token);
 
 }

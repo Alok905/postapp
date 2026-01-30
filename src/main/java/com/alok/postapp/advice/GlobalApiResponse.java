@@ -30,6 +30,7 @@ public class GlobalApiResponse implements ResponseBodyAdvice<Object> {
     ) {
         if(body instanceof ApiResponse) return body;
 
+
         HttpStatus status = HttpStatus.OK;
 
         if(response instanceof ServletServerHttpResponse servletResponse) {

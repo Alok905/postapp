@@ -25,17 +25,17 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/home.html").permitAll()
+                        .requestMatchers("/auth/**", "/home.html", "/chat/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
-                .oauth2Login(oauth2Config -> oauth2Config
-                        .successHandler(oauth2SuccessHandler)
-                        .failureHandler(oauth2FailureHandler)
-                )
+//                .oauth2Login(oauth2Config -> oauth2Config
+//                        .successHandler(oauth2SuccessHandler)
+//                        .failureHandler(oauth2FailureHandler)
+//                )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

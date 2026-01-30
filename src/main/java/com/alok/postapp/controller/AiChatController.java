@@ -3,6 +3,7 @@ package com.alok.postapp.controller;
 import com.alok.postapp.dto.chat.ChatRequest;
 import com.alok.postapp.dto.chat.ChatResponse;
 import com.alok.postapp.service.ChatService;
+import com.alok.postapp.service.impl.ChatServiceImpl;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,14 @@ public class AiChatController {
     }
 
     @PostMapping("/faq")
-    public ResponseEntity<ChatResponse> chatWithAI(@RequestBody ChatRequest chatRequest) {
+    public ResponseEntity<ChatResponse> askFaq(@RequestBody ChatRequest chatRequest) {
         ChatResponse chatResponse = chatService.respondToFaqs(chatRequest);
+        return ResponseEntity.ok(chatResponse);
+    }
+
+    @PostMapping("/talk")
+    public ResponseEntity<ChatResponse> talkWithAI(@RequestBody ChatRequest chatRequest) {
+        ChatResponse chatResponse = chatService.aiChat(chatRequest);
         return ResponseEntity.ok(chatResponse);
     }
 }

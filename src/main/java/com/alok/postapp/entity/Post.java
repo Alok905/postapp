@@ -1,8 +1,14 @@
 package com.alok.postapp.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Post {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
